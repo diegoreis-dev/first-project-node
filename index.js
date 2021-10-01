@@ -10,13 +10,18 @@
     - Middleware    => INTERCEPTADOR => Tem o poder de parar ou alterar dados da requisição
 */
 
-const { request, response } = require('express')
-const express = require('express')
-const uuid = require('uuid')
+// const { request, response } = require('express')
+// const express = require('express')
+// const uuid = require('uuid')
 
-const port = 3000
+ import express from "express";
+ import { v4 } from "uuid";
+ import cors from "cors"
+
+const port = 3001
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 
 const users = []
@@ -33,7 +38,7 @@ const checkUserId = (request, response, next) => {
     request.userIndex = index
     request.userId = id
 
-    next ()
+    next()
 }
 
 app.get('/users', (request, response) => {
@@ -52,14 +57,14 @@ app.post('/users', (request, response) => {
 })
 
 app.put('/users/:id', checkUserId, (request, response) => {
-    
+
     const { name, age } = request.body
     const index = request.userIndex
     const id = request.userId
 
     const updateUser = { id, name, age }
 
-   
+
     users[index] = updateUser
 
     return response.json(updateUser)
